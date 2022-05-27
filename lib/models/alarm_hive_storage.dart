@@ -46,6 +46,12 @@ class AlarmsHiveLocalStorage {
     return box.delete(alarm.id);
   }
 
+  Future<void> removeAllAlarm() {
+    final box = Hive.box(_kAlarmsHiveBoxName);
+
+    return box.clear();
+  }
+
   Future<void> dispose() async {
     await Hive.close();
   }

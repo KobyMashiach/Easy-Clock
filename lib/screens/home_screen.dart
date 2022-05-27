@@ -190,11 +190,55 @@ class _AlarmScheetState extends State<AlarmScheet>
                     children: [
                       Expanded(
                         child: TextButton.icon(
-                          onPressed: () => pickColor(context),
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      backgroundColor:
+                                          const Color.fromARGB(255, 22, 22, 22),
+                                      title: const Center(
+                                        child: Text(
+                                          "Delete all the alarms?",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              TextButton(
+                                                  child: const Text(
+                                                    'Cancel',
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  }),
+                                              const Spacer(),
+                                              TextButton(
+                                                  child: const Text(
+                                                    'Yes',
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                  ),
+                                                  onPressed: () {
+                                                    final model = context
+                                                        .read<AlarmModel>();
+                                                    model.deleteAllAlarms();
+                                                    Navigator.of(context).pop();
+                                                  }),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ));
+                          },
                           icon: const Icon(
-                            Icons.color_lens_outlined,
+                            Icons.delete_forever,
                           ),
-                          label: const Text("Change Color"),
+                          label: const Text("Delete all"),
                         ),
                       ),
                       Expanded(
@@ -223,6 +267,15 @@ class _AlarmScheetState extends State<AlarmScheet>
                       ),
                     ],
                   ),
+                ),
+              ),
+              SizedBox(
+                child: TextButton.icon(
+                  onPressed: () => pickColor(context),
+                  icon: const Icon(
+                    Icons.color_lens_outlined,
+                  ),
+                  label: const Text("Change Color"),
                 ),
               ),
               if (model.alarms != null)
@@ -282,7 +335,10 @@ class _AlarmScheetState extends State<AlarmScheet>
                 TextButton(
                     child: const Text(
                       'Select',
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();

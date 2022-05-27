@@ -17,7 +17,7 @@ class AlarmDataModelAdapter extends TypeAdapter<AlarmDataModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return AlarmDataModel(
-      id: fields[0] as int,
+      id: fields[0] as int?,
       time: fields[1] as DateTime,
       weekdays: (fields[2] as List).cast<int>(),
     );
@@ -42,6 +42,39 @@ class AlarmDataModelAdapter extends TypeAdapter<AlarmDataModel> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is AlarmDataModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class SaveColorLocalAdapter extends TypeAdapter<SaveColorLocal> {
+  @override
+  final int typeId = 1;
+
+  @override
+  SaveColorLocal read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return SaveColorLocal(color: fields[3] as Color)
+      ..mainColor = fields[3] as Color;
+  }
+
+  @override
+  void write(BinaryWriter writer, SaveColorLocal obj) {
+    writer
+      ..writeByte(1)
+      ..writeByte(3)
+      ..write(obj.mainColor);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SaveColorLocalAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

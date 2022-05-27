@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:easy_clock/theme.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 part 'alarm_data_model.g.dart';
@@ -31,4 +33,17 @@ class AlarmDataModel {
         time: time ?? this.time,
         weekdays: weekdays != null ? List.from(weekdays) : this.weekdays,
       );
+}
+
+@HiveType(typeId: 1)
+class SaveColorLocal {
+  @HiveField(3)
+  late Color mainColor = changeColor;
+
+  SaveColorLocal({required Color color}) {
+    this.mainColor = color;
+  }
+
+  SaveColorLocal changeColorLocal({Color? color}) =>
+      SaveColorLocal(color: color ?? changeColor);
 }

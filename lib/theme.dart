@@ -1,6 +1,8 @@
+import 'package:easy_clock/models/data_models/alarm_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'constants.dart';
 
@@ -69,6 +71,8 @@ AppBarTheme appBarDarkTheme = AppBarTheme(
   elevation: 0,
 );
 
+final box = Boxes.getNewColor;
+
 Widget buildColorPicker() => ColorPicker(
       pickerColor: changeColor,
       enableAlpha: false,
@@ -76,3 +80,8 @@ Widget buildColorPicker() => ColorPicker(
       portraitOnly: true,
       onColorChanged: (newColor) => changeColor = newColor,
     );
+
+class Boxes {
+  static Box<SaveColorLocal> getNewColor() =>
+      Hive.box<SaveColorLocal>('saveColorLocal');
+}

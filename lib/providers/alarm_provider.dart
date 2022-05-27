@@ -1,4 +1,5 @@
 import 'package:easy_clock/helpers/clock_helper.dart';
+import 'package:easy_clock/helpers/toast.dart';
 import 'package:easy_clock/models/alarm_hive_storage.dart';
 import 'package:easy_clock/models/data_models/alarm_data_model.dart';
 import 'package:flutter/foundation.dart';
@@ -24,6 +25,7 @@ class AlarmModel extends ChangeNotifier {
 
   void loadAlarms() async {
     final alarms = await _storage.loadAlarms();
+    alarms.sort(alarmSort);
 
     this.alarms = List.from(alarms);
     state = AlarmLoaded(alarms);
@@ -32,23 +34,39 @@ class AlarmModel extends ChangeNotifier {
   }
 
   Future<void> addAlarm(AlarmDataModel alarm) async {
-    loading = true;
-    notifyListeners();
+    bool newId = false, existAlarm = false;
+    existAlarm = alarms!.any((element) => element.time == alarm.time);
 
-    final newAlarm = await _storage.addAlarm(alarm);
-    alarms!.add(newAlarm);
-    alarms!.sort(alarmSort);
+    if (!existAlarm) {
+      newId = alarms!.any((element) => element.id == alarm.id);
 
-    alarms = List.from(alarms!);
+      if (newId) {
+        AlarmDataModel temp =
+            AlarmDataModel(time: alarm.time, weekdays: alarm.weekdays);
+        alarm = temp;
+      }
+      loading = true;
+      notifyListeners();
 
-    loading = false;
-    state = AlarmCreated(
-      alarm,
-      alarms!.indexOf(newAlarm),
-    );
-    notifyListeners();
+      final newAlarm = await _storage.addAlarm(alarm);
+      alarms!.add(newAlarm);
+      alarms!.sort(alarmSort);
 
-    await _scheduleAlarm(alarm);
+      alarms = List.from(alarms!);
+
+      loading = false;
+      state = AlarmCreated(
+        alarm,
+        alarms!.indexOf(newAlarm),
+      );
+      notifyListeners();
+
+      await _scheduleAlarm(alarm);
+    } else {
+      ToastMassageShort(
+          msg:
+              "The clock ${alarm.time.hour} : ${alarm.time.minute} is already set");
+    }
   }
 
   Future<void> updateAlarm(AlarmDataModel alarm, int index) async {
@@ -92,6 +110,20 @@ class AlarmModel extends ChangeNotifier {
     await _removeScheduledAlarm(alarm);
   }
 
+  Future<void> deleteAllAlarms() async {
+    loading = true;
+    notifyListeners();
+
+    await _storage.removeAllAlarm();
+
+    alarms!.clear();
+
+    loading = false;
+    notifyListeners();
+
+    await _removeAllScheduledAlarm();
+  }
+
   int alarmSort(alarm1, alarm2) => alarm1.time.compareTo(alarm2.time);
 
   Future<void> _removeScheduledAlarm(AlarmDataModel alarm) async {
@@ -110,6 +142,16 @@ class AlarmModel extends ChangeNotifier {
     } else {
       await flutterLocalNotificationsPlugin.cancel(alarm.id);
     }
+  }
+
+  Future<void> _removeAllScheduledAlarm() async {
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+
+    final List<PendingNotificationRequest> pendingNotificationRequests =
+        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+
+    await flutterLocalNotificationsPlugin.cancelAll();
   }
 
   Future<void> _scheduleAlarm(AlarmDataModel alarm) async {
@@ -141,7 +183,7 @@ class AlarmModel extends ChangeNotifier {
       await flutterLocalNotificationsPlugin.zonedSchedule(
         alarm.id,
         'Alarm at ${fromTimeToString(alarm.time)}',
-        'Ring Ring!!!',
+        'Easy Clock',
         TZDateTime.local(
           alarm.time.year,
           alarm.time.month,
@@ -161,7 +203,7 @@ class AlarmModel extends ChangeNotifier {
           // acts as an id, for cancelling later
           alarm.id * 10 + weekday,
           'Alarm at ${fromTimeToString(alarm.time)}',
-          'Ring Ring!!!',
+          'Easy Clock',
           TZDateTime.local(
             alarm.time.year,
             alarm.time.month,

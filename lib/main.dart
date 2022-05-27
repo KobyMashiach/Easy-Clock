@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_clock/models/data_models/alarm_data_model.dart';
 import 'package:easy_clock/providers/alarm_provider.dart';
 import 'package:easy_clock/providers/clock_type_provider.dart';
 import 'package:easy_clock/providers/theme_provider.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest_all.dart';
 import 'package:timezone/timezone.dart';
@@ -18,7 +20,9 @@ import 'screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Hive.initFlutter();
+  Hive.registerAdapter(SaveColorLocalAdapter());
+  await Hive.openBox<SaveColorLocal>('saveColorLocal');
   runApp(const MyApp());
 }
 
