@@ -10,7 +10,7 @@ class ToastMassageShort {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: color ?? Color.fromARGB(255, 37, 37, 37),
+        backgroundColor: color ?? const Color.fromARGB(255, 37, 37, 37),
         textColor: Colors.white,
         fontSize: 16.0);
   }
@@ -25,7 +25,7 @@ class ToastMassageLong {
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: color ?? Color.fromARGB(255, 37, 37, 37),
+        backgroundColor: color ?? const Color.fromARGB(255, 37, 37, 37),
         textColor: Colors.white,
         fontSize: 16.0);
   }

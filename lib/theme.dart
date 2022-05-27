@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:easy_clock/models/data_models/alarm_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -71,6 +73,7 @@ AppBarTheme appBarDarkTheme = AppBarTheme(
   elevation: 0,
 );
 
+// ignore: prefer_const_declarations
 final box = Boxes.getNewColor;
 
 Widget buildColorPicker() => ColorPicker(

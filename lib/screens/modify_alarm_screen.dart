@@ -1,8 +1,5 @@
 // ignore_for_file: use_build_context_synchronously, prefer_interpolation_to_compose_strings
 
-import 'dart:ui';
-
-import 'package:easy_clock/constants.dart';
 import 'package:easy_clock/helpers/clock_helper.dart';
 import 'package:easy_clock/models/data_models/alarm_data_model.dart';
 import 'package:easy_clock/providers/alarm_provider.dart';
@@ -200,7 +197,7 @@ class _ModifyAlarmScreenState extends State<ModifyAlarmScreen> {
           ),
           Text(
             saveH + saveM == 0 ? "" : "$saveH Hours and $saveM Minutes",
-            style: TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 20),
           ),
         ],
       ),

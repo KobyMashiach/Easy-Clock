@@ -1,16 +1,15 @@
+// ignore_for_file: sort_child_properties_last
+
 import 'package:easy_clock/helpers/clock_helper.dart';
 import 'package:easy_clock/models/data_models/alarm_data_model.dart';
 import 'package:easy_clock/providers/alarm_provider.dart';
 import 'package:easy_clock/providers/clock_type_provider.dart';
-import 'package:easy_clock/providers/theme_provider.dart';
 import 'package:easy_clock/screens/components/body.dart';
-import 'package:easy_clock/screens/components/change_theme_icon_button.dart';
 import 'package:easy_clock/screens/components/spinner_widget.dart';
 import 'package:easy_clock/screens/modify_alarm_screen.dart';
 import 'package:easy_clock/size_config.dart';
 import 'package:easy_clock/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 

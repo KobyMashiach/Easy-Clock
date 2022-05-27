@@ -41,7 +41,7 @@ class SaveColorLocal {
   late Color mainColor = changeColor;
 
   SaveColorLocal({required Color color}) {
-    this.mainColor = color;
+    mainColor = color;
   }
 
   SaveColorLocal changeColorLocal({Color? color}) =>

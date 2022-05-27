@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages, unnecessary_nullable_for_final_variable_declarations
+
 import 'dart:io';
 
 import 'package:easy_clock/models/data_models/alarm_data_model.dart';
