@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, sort_child_properties_last, prefer_interpolation_to_compose_strings
+
 import 'dart:async';
 
 import 'package:easy_clock/helpers/clock_helper.dart';
