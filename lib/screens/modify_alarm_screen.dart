@@ -196,7 +196,10 @@ class _ModifyAlarmScreenState extends State<ModifyAlarmScreen> {
             ),
           ),
           Text(
-            saveH + saveM == 0 ? "" : "$saveH Hours and $saveM Minutes",
+            saveH + saveM == 0
+                ? ""
+                : "${count + 1} alarm\nevery $saveH Hours and $saveM Minutes\nfrom ${fromTimeToString(alarm.time)}",
+            textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 20),
           ),
         ],
@@ -214,11 +217,11 @@ class _ModifyAlarmScreenState extends State<ModifyAlarmScreen> {
             itemExtent: 30,
             onSelectedItemChanged: (int value) {
               setState(() {
-                count = value;
+                count = value + 1;
               });
             },
             children: [
-              for (var i = 1; i <= 30; i++) Text(i.toString()),
+              for (var i = 2; i <= 30; i++) Text(i.toString()),
             ],
           ),
         ),
